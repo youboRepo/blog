@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Service
 public class BiliServiceImpl implements BiliService {
 
-    @Value("${bili-url}")
+    @Value("${bili.url}")
     private String url;
 
     @Override
@@ -29,6 +30,18 @@ public class BiliServiceImpl implements BiliService {
         headers.put("Cookie", "SESSDATA=" + sess);
         // 上传图片
         String result = HttpClientUtils.uploadFileByHttpClient(url, csrf, headers, file);
+        // 解析结果
+        Object data = Objects.requireNonNull(JSON.parseObject(result)).get("data");
+        String imageUrl = JSON.parseObject(data.toString()).get("image_url").toString();
+        return imageUrl.replaceFirst("http", "https");
+    }
+
+    @Override
+    public String uploadBiliPicture(InputStream inputStream, String fileName, String csrf, String sess) {
+        Map<String, String> headers = new HashMap<>(1);
+        headers.put("Cookie", "SESSDATA=" + sess);
+        // 上传图片
+        String result = HttpClientUtils.uploadFileByHttpClient(url, csrf, headers, inputStream, fileName);
         // 解析结果
         Object data = Objects.requireNonNull(JSON.parseObject(result)).get("data");
         String imageUrl = JSON.parseObject(data.toString()).get("image_url").toString();

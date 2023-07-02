@@ -12,6 +12,7 @@ import com.ican.model.dto.*;
 import com.ican.model.vo.*;
 import com.ican.service.ArticleService;
 import com.ican.service.RedisService;
+import com.ican.service.SiteConfigService;
 import com.ican.service.TagService;
 import com.ican.strategy.context.SearchStrategyContext;
 import com.ican.strategy.context.UploadStrategyContext;
@@ -70,6 +71,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private BlogFileMapper blogFileMapper;
+    
+    @Autowired
+    private SiteConfigService siteConfigService;
 
     @Override
     public PageResult<ArticleBackVO> listArticleBackVO(ConditionDTO condition) {
@@ -102,7 +106,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 添加文章
         Article newArticle = BeanCopyUtils.copyBean(article, Article.class);
         if (StringUtils.isBlank(newArticle.getArticleCover())) {
-            SiteConfig siteConfig = redisService.getObject(SITE_SETTING);
+            SiteConfig siteConfig = siteConfigService.getSiteConfig();
             newArticle.setArticleCover(siteConfig.getArticleCover());
         }
         newArticle.setCategoryId(categoryId);

@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -32,15 +33,35 @@ public class HttpClientUtils {
     private static final int DEFAULT_TIMEOUT = 5 * 1000;
 
     /**
-     * HttpClient上传文件
-     *
      * @param url     请求接口
      * @param csrf    校验参数
      * @param headers 请求参数
-     * @param file    文件
-     * @return 响应结果
+     * @param file    上传文件
+     * @return
      */
     public static String uploadFileByHttpClient(String url, String csrf, Map<String, String> headers, MultipartFile file) {
+        String resultUrl = "";
+
+        try {
+            resultUrl = uploadFileByHttpClient(url, csrf, headers, file.getInputStream(), file.getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return resultUrl;
+    }
+
+    /**
+     * HttpClient上传文件
+     *
+     * @param url         请求接口
+     * @param csrf        校验参数
+     * @param headers     请求参数
+     * @param inputStream 文件输入流
+     * @param fileName    文件名字
+     * @return 响应结果
+     */
+    public static String uploadFileByHttpClient(String url, String csrf, Map<String, String> headers, InputStream inputStream, String fileName) {
         String resultString = "";
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
@@ -49,14 +70,14 @@ public class HttpClientUtils {
             HttpPost httpPost = new HttpPost(url);
             // 设置超时时间
             RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(DEFAULT_TIMEOUT)
-                    .setConnectionRequestTimeout(DEFAULT_TIMEOUT).setSocketTimeout(DEFAULT_TIMEOUT).build();
+                .setConnectionRequestTimeout(DEFAULT_TIMEOUT).setSocketTimeout(DEFAULT_TIMEOUT).build();
             httpPost.setConfig(requestConfig);
             // 设置参数信息
             // HttpMultipartMode.RFC6532参数的设定是为避免文件名为中文时乱码
             MultipartEntityBuilder builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.RFC6532);
             builder.setCharset(StandardCharsets.UTF_8);
             // 设置文件
-            builder.addBinaryBody("file_up", file.getInputStream(), ContentType.MULTIPART_FORM_DATA, file.getName());
+            builder.addBinaryBody("file_up", inputStream, ContentType.MULTIPART_FORM_DATA, fileName);
             // 设置必要参数
             builder.addTextBody("csrf", csrf);
             httpPost.setEntity(builder.build());

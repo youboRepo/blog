@@ -22,17 +22,27 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
         try {
             // 获取文件md5值
             String md5 = FileUtils.getMd5(file.getInputStream());
+
             // 获取文件扩展名
             String extName = FileUtils.getExtension(file);
+
             // 重新生成文件名
             String fileName = md5 + "." + extName;
+
+            // 获取访问路径
+            String accessUrl = "";
+
             // 判断文件是否已存在
             if (!exists(path + fileName)) {
                 // 不存在则继续上传
-                upload(path, fileName, file.getInputStream());
+                accessUrl = upload(path, fileName, file.getInputStream());
+            } else {
+                // 存在获取访问路径
+                accessUrl = getFileAccessUrl(path + fileName);
             }
+
             // 返回文件访问路径
-            return getFileAccessUrl(path + fileName);
+            return accessUrl;
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException("文件上传失败");
@@ -55,7 +65,7 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
      * @param inputStream 输入流
      * @throws IOException io异常
      */
-    public abstract void upload(String path, String fileName, InputStream inputStream) throws IOException;
+    public abstract String upload(String path, String fileName, InputStream inputStream) throws IOException;
 
     /**
      * 获取文件访问url

@@ -35,7 +35,7 @@ public class CosUploadStrategyImpl extends AbstractUploadStrategyImpl {
     }
 
     @Override
-    public void upload(String path, String fileName, InputStream inputStream) {
+    public String upload(String path, String fileName, InputStream inputStream) {
         COSClient cosClient = getCosClient();
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -54,6 +54,8 @@ public class CosUploadStrategyImpl extends AbstractUploadStrategyImpl {
         } finally {
             cosClient.shutdown();
         }
+
+        return getFileAccessUrl(path + fileName);
     }
 
     @Override

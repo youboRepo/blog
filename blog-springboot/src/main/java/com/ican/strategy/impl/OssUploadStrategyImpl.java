@@ -29,7 +29,7 @@ public class OssUploadStrategyImpl extends AbstractUploadStrategyImpl {
     }
 
     @Override
-    public void upload(String path, String fileName, InputStream inputStream) {
+    public String upload(String path, String fileName, InputStream inputStream) {
         OSS ossClient = getOssClient();
         try {
             // 调用oss方法上传
@@ -46,6 +46,8 @@ public class OssUploadStrategyImpl extends AbstractUploadStrategyImpl {
                 ossClient.shutdown();
             }
         }
+
+        return getFileAccessUrl(path + fileName);
     }
 
     @Override

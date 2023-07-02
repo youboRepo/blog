@@ -32,7 +32,7 @@ public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
     }
 
     @Override
-    public void upload(String path, String fileName, InputStream inputStream) throws IOException {
+    public String upload(String path, String fileName, InputStream inputStream) throws IOException {
         // 判断目录是否存在
         File directory = new File(localPath + path);
         if (!directory.exists()) {
@@ -52,6 +52,8 @@ public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
                 }
             }
         }
+
+        return getFileAccessUrl(path + fileName);
     }
 
     @Override

@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * B站图片上传策略
+ *
+ * @author youbo
+ * @date 2023/07/03 17:47
+ **/
 @Service
 public class BiliUploadStrategyImpl extends AbstractUploadStrategyImpl {
 

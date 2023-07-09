@@ -5,6 +5,10 @@ import { PageQuery } from "@/model";
  */
 export interface ArticleQuery extends PageQuery {
   /**
+   * 主键列表
+   */
+  ids: number[];
+  /**
    * 关键字
    */
   keyword?: string;
@@ -28,6 +32,11 @@ export interface ArticleQuery extends PageQuery {
    * 标签id
    */
   tagId?: number;
+
+  /**
+   * 导出类型
+   */
+  exportType: number;
 }
 
 /**

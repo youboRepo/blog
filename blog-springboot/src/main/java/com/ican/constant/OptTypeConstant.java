@@ -31,5 +31,7 @@ public class OptTypeConstant {
      * 下线
      */
     public static final String KICK = "下线";
+    
+    public static final String EXPORT = "导出";
 
 }

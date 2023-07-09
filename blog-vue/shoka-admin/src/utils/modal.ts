@@ -16,3 +16,28 @@ export function messageConfirm(content: string) {
     type: "warning",
   });
 }
+
+
+export function notifyError(message: string) {
+  ElNotification({
+    title: "错误",
+    message,
+    type: "error",
+  });
+}
+
+export function notifyWarning(message: string) {
+  ElNotification({
+    title: "警告",
+    message,
+    type: "warning",
+  });
+}
+
+export function notifyInfo(message: string) {
+  ElNotification({
+    title: "Info",
+    message,
+    type: "info",
+  });
+}

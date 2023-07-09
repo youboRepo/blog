@@ -6,6 +6,7 @@ import com.ican.model.dto.*;
 import com.ican.model.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -118,4 +119,6 @@ public interface ArticleService extends IService<Article> {
      * @return 文章图片地址
      */
     String saveArticleImages(MultipartFile file);
+
+    void exportArticleList(ConditionDTO query, HttpServletResponse response);
 }

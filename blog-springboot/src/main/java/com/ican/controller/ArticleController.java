@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static com.ican.constant.OptTypeConstant.*;
@@ -136,6 +137,16 @@ public class ArticleController {
     @PostMapping("/admin/article/upload")
     public Result<String> saveArticleImages(@RequestParam("file") MultipartFile file) {
         return Result.success(articleService.saveArticleImages(file));
+    }
+
+    /**
+     * 导出文章列表
+     *
+     * @param query
+     */
+    @PostMapping("/admin/article/export")
+    public void exportArticleList(ConditionDTO query, HttpServletResponse response) {
+        articleService.exportArticleList(query, response);
     }
 
     /**

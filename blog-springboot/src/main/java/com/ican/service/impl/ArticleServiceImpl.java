@@ -2,11 +2,15 @@ package com.ican.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ican.entity.*;
+import com.ican.excel.ArticleExcel;
+import com.ican.excel.utils.ArticleExcelUtils;
 import com.ican.mapper.*;
 import com.ican.model.dto.*;
 import com.ican.model.vo.*;
@@ -17,6 +21,7 @@ import com.ican.service.TagService;
 import com.ican.strategy.context.SearchStrategyContext;
 import com.ican.strategy.context.UploadStrategyContext;
 import com.ican.utils.BeanCopyUtils;
+import com.ican.utils.EasyExcelUtils;
 import com.ican.utils.FileUtils;
 import com.ican.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -282,6 +288,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             e.printStackTrace();
         }
         return url;
+    }
+
+    @Override
+    public void exportArticleList(ConditionDTO query, HttpServletResponse response) {
+
+        LambdaQueryWrapper<Article> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.in(CollectionUtils.isNotEmpty(query.getIds()), Article::getId, query.getIds());
+        List<Article> articles = baseMapper.selectList(queryWrapper);
+        List<ArticleExcel> articleExcels = ArticleExcelUtils.toArticleExcelList(articles);
+
+        EasyExcelUtils.exportExcel("文章列表", articleExcels, ArticleExcel.class, response);
     }
 
     /**

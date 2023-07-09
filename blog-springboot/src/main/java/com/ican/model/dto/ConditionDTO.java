@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 查询条件
  *
@@ -37,6 +39,12 @@ public class ConditionDTO {
      */
     @ApiModelProperty(value = "是否禁用 (0否 1是)")
     private Integer isDisable;
+
+    /**
+     * 主键列表查询
+     */
+    @ApiModelProperty(value = "主键列表查询")
+    private List<Integer> ids;
 
     /**
      * 分类id
@@ -129,4 +137,9 @@ public class ConditionDTO {
     @ApiModelProperty(value = "文件路径")
     private String filePath;
 
+    /**
+     * 导出类型
+     */
+    @ApiModelProperty(value = "导出类型")
+    private Integer exportType;
 }

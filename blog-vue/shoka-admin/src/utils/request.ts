@@ -33,6 +33,30 @@ requests.interceptors.request.use(
 // 配置响应拦截器
 requests.interceptors.response.use(
   (response: AxiosResponse) => {
+    const data = response.data
+    if (response.config.responseType === 'blob') {
+      if (response.data.type === 'application/json') {
+        response.data = new Promise(resolve => {
+          const reader = new FileReader()
+          reader.onload = function () {
+            resolve(JSON.parse(this.result) || [] || '')
+          }
+          reader.readAsText(data)
+        })
+      } else {
+        const link = document.createElement('a')
+        const blob = new Blob([data])
+        link.href = window.URL.createObjectURL(blob)
+        const content = response.headers['content-disposition']
+        const index = content.indexOf('filename=')
+        const fileName = content.substring(index + 9)
+        link.download = decodeURIComponent(fileName)
+        link.click()
+        window.URL.revokeObjectURL(link.href)
+        response.data = { code: 20000 }
+      }
+    }
+
     switch (response.data.code) {
       case 400:
         ElNotification({

@@ -3,11 +3,9 @@ package com.ican.excel;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentRowHeight;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.net.URL;
 
 @Data
 @ColumnWidth(20)
@@ -20,10 +18,10 @@ public class ArticleExcel {
     private String articleTitle;
 
     /**
-     * 文章作者
+     * 缩略图片
      */
-    @ExcelProperty("文章作者")
-    private String user;
+    @ExcelProperty("缩略图片")
+    private URL articleCover;
 
     /**
      * 文章分类

@@ -36,7 +36,7 @@
     <!-- 操作按钮 -->
     <el-row :gutter="10" class="mb15">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="Download" :disabled="articleIdList.length === 0" @click="showExportDialog = true">批量导出</el-button>
+        <el-button type="primary" plain icon="Download" @click="showExportDialog = true">批量导出</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="articleIdList.length === 0" @click="handleDelete(undefined)">批量删除</el-button>
@@ -286,22 +286,19 @@ const handleDelete = (id?: number) => {
 }
 
 const batchExport = (exportType: number) => {
-
-    const query = { ...queryParams.value }
-
-    if (exportType == 3) {
-        if(query.ids.length === 0) {
-            notifyWarning("请选择文章导出！")
-        }
-        query.ids = articleIdList.value
+  const query = { ...queryParams.value }
+  if (exportType == 3) {
+    query.ids = articleIdList.value
+    if (!query.ids || query.ids.length === 0) {
+      notifyWarning("请选择文章导出！")
+      data.showExportDialog = false
+      return
     }
-    console.log(query)
-
-    exportArticleList({ ...query, exportType}).then(() => {
-        data.showExportDialog = false
-        notifySuccess('导出成功')
-    })
-
+  }
+  exportArticleList({ ...query, exportType }).then(() => {
+    data.showExportDialog = false
+    notifySuccess('导出成功')
+  })
 }
 
 const handleTop = (article: Article) => {

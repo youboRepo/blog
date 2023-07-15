@@ -140,16 +140,6 @@ public class ArticleController {
     }
 
     /**
-     * 导出文章列表
-     *
-     * @param query
-     */
-    @PostMapping("/admin/article/export")
-    public void exportArticleList(ConditionDTO query, HttpServletResponse response) {
-        articleService.exportArticleList(query, response);
-    }
-
-    /**
      * 置顶文章
      *
      * @param top 置顶信息

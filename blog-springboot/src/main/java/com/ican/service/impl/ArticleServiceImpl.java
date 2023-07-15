@@ -2,7 +2,6 @@ package com.ican.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.poi.excel.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -288,17 +287,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             e.printStackTrace();
         }
         return url;
-    }
-
-    @Override
-    public void exportArticleList(ConditionDTO query, HttpServletResponse response) {
-
-        LambdaQueryWrapper<Article> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.in(CollectionUtils.isNotEmpty(query.getIds()), Article::getId, query.getIds());
-        List<Article> articles = baseMapper.selectList(queryWrapper);
-        List<ArticleExcel> articleExcels = ArticleExcelUtils.toArticleExcelList(articles);
-
-        EasyExcelUtils.exportExcel("文章列表", articleExcels, ArticleExcel.class, response);
     }
 
     /**

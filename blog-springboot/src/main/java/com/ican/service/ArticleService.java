@@ -119,6 +119,4 @@ public interface ArticleService extends IService<Article> {
      * @return 文章图片地址
      */
     String saveArticleImages(MultipartFile file);
-
-    void exportArticleList(ConditionDTO query, HttpServletResponse response);
 }

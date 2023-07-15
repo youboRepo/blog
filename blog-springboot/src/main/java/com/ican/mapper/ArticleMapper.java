@@ -1,6 +1,6 @@
 package com.ican.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ican.common.jdbc.MyBaseMapper;
 import com.ican.entity.Article;
 import com.ican.model.dto.ConditionDTO;
 import com.ican.model.vo.*;
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2022/12/04 22:29
  **/
 @Repository
-public interface ArticleMapper extends BaseMapper<Article> {
+public interface ArticleMapper extends MyBaseMapper<Article> {
 
     /**
      * 查询后台文章数量

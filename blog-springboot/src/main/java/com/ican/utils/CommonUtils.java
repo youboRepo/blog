@@ -1,9 +1,16 @@
 package com.ican.utils;
 
+import cn.hutool.core.util.ObjUtil;
+import com.ican.constant.CommonConstant;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 公共工具类
@@ -11,6 +18,11 @@ import java.util.regex.Pattern;
  * @author ican
  */
 public class CommonUtils {
+
+    /**
+     * 默认分隔正则
+     */
+    private static final String DEFAULT_SPLIT_REGEX = ",， \t\n\r";
 
     /**
      * 检测邮箱是否合法
@@ -55,5 +67,87 @@ public class CommonUtils {
         }
         return result;
     }
+    
+    public static String getYesOrNo(Integer bool) {
+        if (bool == null) {
+            return "否";
+        }
+        
+        return bool.equals(CommonConstant.TRUE) ? CommonConstant.YES : CommonConstant.NO;
+    }
 
+    /**
+     * 分隔字符列表
+     *
+     * @param text
+     * @param regex
+     * @return
+     */
+    public static List<String> splitStringList(String text, String regex) {
+        String[] split = StringUtils.split(text, regex);
+        if (split == null) {
+            return Lists.newArrayList();
+        }
+        return Arrays.asList(split);
+    }
+
+    /**
+     * 分隔字符列表
+     *
+     * @param text
+     * @return
+     */
+    public static List<String> splitStringList(String text) {
+        return splitStringList(text, DEFAULT_SPLIT_REGEX);
+    }
+
+    /**
+     * 分隔整数列表
+     *
+     * @param text
+     * @param regex
+     * @return
+     */
+    public static List<Integer> splitIntegerList(String text, String regex) {
+        String[] split = StringUtils.split(text, regex);
+        if (split == null) {
+            return Lists.newArrayList();
+        }
+        return Arrays.stream(split).filter(StringUtils::isNumeric).map(Integer::valueOf).collect(Collectors.toList());
+    }
+
+    /**
+     * 分隔整数列表
+     *
+     * @param text
+     * @return
+     */
+    public static List<Integer> splitIntegerList(String text) {
+        return splitIntegerList(text, DEFAULT_SPLIT_REGEX);
+    }
+
+    /**
+     * 分隔长整列表
+     *
+     * @param text
+     * @param regex
+     * @return
+     */
+    public static List<Long> splitLongList(String text, String regex) {
+        String[] split = StringUtils.split(text, regex);
+        if (split == null) {
+            return Lists.newArrayList();
+        }
+        return Arrays.stream(split).filter(StringUtils::isNumeric).map(Long::valueOf).collect(Collectors.toList());
+    }
+
+    /**
+     * 分隔长整列表
+     *
+     * @param text
+     * @return
+     */
+    public static List<Long> splitLongList(String text) {
+        return splitLongList(text, DEFAULT_SPLIT_REGEX);
+    }
 }

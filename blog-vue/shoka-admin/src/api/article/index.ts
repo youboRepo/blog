@@ -11,6 +11,7 @@ import {
   TagVO,
   Top,
 } from "./types";
+import qs from 'qs';
 
 /**
  * 查看文章列表
@@ -150,12 +151,12 @@ export function uploadArticleCover(data: FormData): AxiosPromise<Result<string>>
  */
 export function exportArticleList(params: ArticleQuery): AxiosPromise<Result<string>> {
   return request({
-    url: "/admin/article/export",
+    url: "/new/articles/export",
     headers: {
 			'Content-Type': 'application/vnd.ms-excel',//类型修改为excel
 		},
     method: "post",
     responseType: 'blob',
-    params
+    data: qs.stringify(params, { indices:false })
   });
 }

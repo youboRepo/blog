@@ -3,6 +3,8 @@ package com.ican.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * 文章状态枚举
  *
@@ -36,4 +38,8 @@ public enum ArticleStatusEnum {
      * 描述
      */
     private final String description;
+
+    public static ArticleStatusEnum build(Integer status) {
+        return Arrays.stream(values()).filter(type -> type.status.equals(status)).findAny().orElse(null);
+    }
 }

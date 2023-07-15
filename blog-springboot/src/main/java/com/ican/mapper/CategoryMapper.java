@@ -1,6 +1,7 @@
 package com.ican.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ican.common.jdbc.MyBaseMapper;
 import com.ican.entity.Category;
 import com.ican.model.vo.CategoryBackVO;
 import com.ican.model.vo.CategoryVO;
@@ -16,7 +17,7 @@ import java.util.List;
  * @date 2022/12/02 17:34
  **/
 @Repository
-public interface CategoryMapper extends BaseMapper<Category> {
+public interface CategoryMapper extends MyBaseMapper<Category> {
 
     /**
      * 查询后台分类列表

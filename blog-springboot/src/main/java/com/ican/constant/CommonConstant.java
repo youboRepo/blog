@@ -19,6 +19,16 @@ public class CommonConstant {
     public static final Integer TRUE = 1;
 
     /**
+     * 是
+     */
+    public static final String YES = "是";
+
+    /**
+     * 否
+     */
+    public static final String NO = "否";
+
+    /**
      * 博主id
      */
     public static final Integer BLOGGER_ID = 1;

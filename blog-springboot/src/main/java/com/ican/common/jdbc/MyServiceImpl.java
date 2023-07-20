@@ -16,9 +16,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.ican.common.model.ListPage;
-import com.ican.common.model.PageDTO;
 import com.ican.common.model.PageQuery;
 import com.ican.exception.BaseException;
+import com.ican.model.vo.PageResult;
 import com.ican.utils.CommonUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -698,11 +698,11 @@ public class MyServiceImpl<M extends MyBaseMapper<E>, E> extends ServiceImpl<M, 
      * @param <Q>     查询类型
      * @return 实体分页
      */
-    protected <Q extends PageQuery> PageDTO<E> page(Q query, Function<Q, Wrapper<E>> builder) {
+    protected <Q extends PageQuery> PageResult<E> page(Q query, Function<Q, Wrapper<E>> builder) {
         IPage<E> page = new Page<>(query.getCurrent(), query.getSize());
         Wrapper<E> queryWrapper = builder.apply(query);
         page = this.page(page, queryWrapper);
-        return new PageDTO<>(page.getTotal(), page.getRecords());
+        return new PageResult<>(page.getRecords(), page.getTotal());
     }
 
     /**
@@ -715,7 +715,7 @@ public class MyServiceImpl<M extends MyBaseMapper<E>, E> extends ServiceImpl<M, 
      * @param <D>     传输类型
      * @return 传输分页
      */
-    protected <Q extends PageQuery, D> PageDTO<D> page(Q query, Function<Q, Wrapper<E>> builder,
+    protected <Q extends PageQuery, D> PageResult<D> page(Q query, Function<Q, Wrapper<E>> builder,
         Function<Collection<E>, List<D>> mapper) {
         return this.page(query, builder).clone(mapper);
     }
@@ -730,7 +730,7 @@ public class MyServiceImpl<M extends MyBaseMapper<E>, E> extends ServiceImpl<M, 
      * @param <D>     传输类型
      * @return 传输分页
      */
-    protected <Q extends PageQuery, D> PageDTO<D> page(Q query, Function<Q, Wrapper<E>> builder, Class<D> clazz) {
+    protected <Q extends PageQuery, D> PageResult<D> page(Q query, Function<Q, Wrapper<E>> builder, Class<D> clazz) {
         return this.page(query, builder).clone(BeanUtil::copyToList, clazz);
     }
 
@@ -744,11 +744,11 @@ public class MyServiceImpl<M extends MyBaseMapper<E>, E> extends ServiceImpl<M, 
      * @param <Q>     查询类型
      * @return 实体分页
      */
-    protected <Q> PageDTO<E> page(Q query, Function<Q, Wrapper<E>> builder, long current, long size) {
+    protected <Q> PageResult<E> page(Q query, Function<Q, Wrapper<E>> builder, long current, long size) {
         IPage<E> page = new Page<>(current, size);
         Wrapper<E> queryWrapper = builder.apply(query);
         page = this.page(page, queryWrapper);
-        return new PageDTO<>(page.getTotal(), page.getRecords());
+        return new PageResult<>( page.getRecords(), page.getTotal());
     }
 
     /**
@@ -766,7 +766,7 @@ public class MyServiceImpl<M extends MyBaseMapper<E>, E> extends ServiceImpl<M, 
     /**
      * 根据条件获取实体分页
      * <p>
-     * 后面改用返回PageDTO对象方法
+     * 后面改用返回PageResult对象方法
      *
      * @param queryWrapper 查询条件
      * @param current      当前页码

@@ -3,11 +3,11 @@ package com.ican.newService.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ican.common.jdbc.MyServiceImpl;
-import com.ican.common.model.PageDTO;
 import com.ican.entity.Article;
 import com.ican.entity.custom.ArticleCustom;
 import com.ican.entity.query.ArticleQuery;
 import com.ican.mapper.ArticleMapper;
+import com.ican.model.vo.PageResult;
 import com.ican.newService.NewArticleService;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class NewNewArticleServiceImpl extends MyServiceImpl<ArticleMapper, Article> implements NewArticleService {
     @Override
-    public PageDTO<ArticleCustom> getArticlePageList(ArticleQuery query) {
+    public PageResult<ArticleCustom> getArticlePageList(ArticleQuery query) {
         return this.page(query, this::setQueryWrapper, ArticleCustom.class);
     }
 

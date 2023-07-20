@@ -55,7 +55,7 @@ public class NewArticleController {
                 articles = newArticleService.getArticleList(query);
                 break;
             case 2:
-                articles = newArticleService.getArticlePageList(query).getRecords();
+                articles = newArticleService.getArticlePageList(query).getRecordList();
                 break;
             case 3:
                 articles = newArticleService.getArticleList(query.getIds());

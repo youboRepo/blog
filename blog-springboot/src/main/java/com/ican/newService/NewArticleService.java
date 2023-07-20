@@ -1,8 +1,8 @@
 package com.ican.newService;
 
-import com.ican.common.model.PageDTO;
 import com.ican.entity.custom.ArticleCustom;
 import com.ican.entity.query.ArticleQuery;
+import com.ican.model.vo.PageResult;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public interface NewArticleService {
-    PageDTO<ArticleCustom> getArticlePageList(ArticleQuery query);
+    PageResult<ArticleCustom> getArticlePageList(ArticleQuery query);
 
     List<ArticleCustom> getArticleList(ArticleQuery query);
 
